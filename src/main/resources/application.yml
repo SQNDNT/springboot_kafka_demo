@@ -1,0 +1,38 @@
+server:
+  port: 7070
+
+spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      acks: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: default-group
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records: 500
+    listener:
+      # 当每?条记录被消费者监听器（ListenerConsumer）处理之后提交
+      # RECORD
+      # 当每?批poll()的数据被消费者监听器（ListenerConsumer）处理之后提交
+      # BATCH
+      # 当每?批poll()的数据被消费者监听器（ListenerConsumer）处理之后，距离上次提交时间?于TIME时提交
+      # TIME
+      # 当每?批poll()的数据被消费者监听器（ListenerConsumer）处理之后，被处理record数量?于等于COUNT时提交
+      # COUNT
+      # TIME |　COUNT　有?个条件满?时提交
+      # COUNT_TIME
+      # 当每?批poll()的数据被消费者监听器（ListenerConsumer）处理之后, ?动调?Acknowledgment.acknowledge()后提交
+      # MANUAL
+      # ?动调?Acknowledgment.acknowledge()后?即提交，?般使?这种
+      # MANUAL_IMMEDIATE
+      ack-mode: manual_immediate
+  redis:
+    host: 127.0.0.1
